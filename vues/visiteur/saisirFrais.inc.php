@@ -10,7 +10,7 @@
     <?php endif; ?>
     
     <form action="index.php?action=enregistrerFrais" method="POST" id="frmSaisieFrais">
-        <input type="hidden" name="fiche_id" value="<?php echo $ficheId; ?>">
+        <input type="hidden" name="fiche_id" value="<?php echo htmlspecialchars($ficheId); ?>">
         
         <h3>Frais au forfait</h3>
         <p>Saisissez les quantités pour chaque type de frais forfaitaires du mois en cours.</p>
@@ -30,9 +30,9 @@
                     <?php echo htmlspecialchars($type['libelle']); ?>
                 </label>
                 <input type="number" 
-                       id="txtForfait<?php echo $type['id']; ?>" 
-                       name="txtForfait<?php echo $type['id']; ?>" 
-                       value="<?php echo $quantite; ?>" 
+                       id="txtForfait<?php echo htmlspecialchars($type['id']); ?>" 
+                       name="txtForfait<?php echo htmlspecialchars($type['id']); ?>" 
+                       value="<?php echo htmlspecialchars($quantite); ?>" 
                        min="0" 
                        step="1">
             </div>
@@ -45,7 +45,7 @@
         
         <div class="form-group">
             <label for="txtDateHorsForfait" class="required">Date</label>
-            <input type="date" id="txtDateHorsForfait" name="txtDateHorsForfait" max="<?php echo date('Y-m-d'); ?>">
+            <input type="date" id="txtDateHorsForfait" name="txtDateHorsForfait" max="<?php echo htmlspecialchars(date('Y-m-d')); ?>">
         </div>
         
         <div class="form-group">
