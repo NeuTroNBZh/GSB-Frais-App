@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Mes fiches de frais</h2>
+    </div>
+    
+    <?php if (empty($ficheFrais)): ?>
+        <p>Vous n'avez pas encore de fiche de frais.</p>
+        <p><a href="index.php?action=saisirFrais" class="btn btn-primary">Saisir mes frais</a></p>
+    <?php else: ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mois</th>
+                    <th>Montant validé</th>
+                    <th>Nb justificatifs</th>
+                    <th>Statut</th>
+                    <th>Date modification</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($ficheFrais as $fiche): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($fiche['mois']); ?></td>
+                        <td><?php echo number_format($fiche['montant_valide'], 2, ',', ' '); ?> €</td>
+                        <td><?php echo htmlspecialchars($fiche['nb_justificatifs']); ?></td>
+                        <td>
+                            <?php
+                            $badgeClass = '';
+                            switch ($fiche['statut']) {
+                                case Frais::STATUS_EN_COURS:
+                                    $badgeClass = 'badge-en-cours';
+                                    break;
+                                case Frais::STATUS_CLOTURE:
+                                    $badgeClass = 'badge-cloture';
+                                    break;
+                                case Frais::STATUS_VALIDE:
+                                    $badgeClass = 'badge-valide';
+                                    break;
+                                case Frais::STATUS_REMBOURSE:
+                                    $badgeClass = 'badge-rembourse';
+                                    break;
+                            }
+                            ?>
+                            <span class="badge <?php echo $badgeClass; ?>">
+                                <?php echo htmlspecialchars($fiche['statut']); ?>
+                            </span>
+                        </td>
+                        <td><?php echo htmlspecialchars($fiche['date_modif']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>
+<?php require_once 'vues/menu_close.inc.php'; ?>
