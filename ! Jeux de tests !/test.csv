@@ -1,11 +1,11 @@
-ID_Test,Cas_Test,Rôle,Interface,Action,Résultat_Attendu,Statut
-T001,Connexion utilisateur,Utilisateur,Login,Saisir identifiants valides,Redirection vers tableau de bord utilisateur,À tester
-T002,Connexion admin,Admin,Login,Saisir identifiants admin,Redirection vers tableau de bord admin,À tester
-T003,Connexion comptable,Comptable,Login,Saisir identifiants comptable,Redirection vers tableau de bord comptable,À tester
-T004,Accès refusé utilisateur,Utilisateur,Admin Panel,Tentative d'accès,Message d'erreur 403,À tester
-T005,Gestion des utilisateurs,Admin,Gestion Utilisateurs,Créer nouvel utilisateur,Utilisateur créé avec succès,À tester
-T006,Validation des frais,Comptable,Validation Frais,Approuver fiche de frais,Fiche marquée comme validée,À tester
-T007,Soumission frais,Utilisateur,Soumission Frais,Soumettre fiche,Confirmation d'envoi,À tester
-T008,Consultation rapports,Admin,Rapports,Générer rapport,Rapport téléchargé,À tester
-T009,Déconnexion,Tous,Tous,Cliquer Déconnexion,Retour à la page de login,À tester
-T010,Session expirée,Tous,Tous,Attendre timeout,Redirection login + message,À tester
+ID_Test;Cas_Test;RôleInterface;Action;Résultat_Attendu;Statut
+T001;Connexion utilisateur;Utilisateur;Login;Saisir identifiants valides;Redirection vers tableau de bord utilisateur;À tester
+T002;Connexion admin;Admin;Login;Saisir identifiants admin;Redirection vers tableau de bord admin;À tester
+T003;Connexion comptable;Comptable;Login;Saisir identifiants comptable;Redirection vers tableau de bord comptable;À tester
+T004;Accès refusé utilisateur;Utilisateur;Admin Panel;Tentative d'accès;Message d'erreur 403;À tester
+T005;Gestion des utilisateurs;Admin;Gestion Utilisateurs;Créer nouvel utilisateur;Utilisateur créé avec succès;À tester
+T006;Validation des frais;Comptable;Validation Frais;Approuver fiche de frais;Fiche marquée comme validée;À tester
+T007;Soumission frais;Utilisateur;Soumission Frais;Soumettre fiche;Confirmation d'envoi;À tester
+T008;Consultation rapports;Admin;Rapports;Générer rapport;Rapport téléchargé;À tester
+T009;Déconnexion;Tous;Tous;Cliquer Déconnexion;Retour à la page de login;À tester
+T010;Session expirée;Tous;Tous;Attendre timeout;Redirection login + message;À tester
