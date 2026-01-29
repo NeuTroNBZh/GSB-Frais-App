@@ -263,6 +263,11 @@ table tbody tr:hover {
     background-color: var(--gsb-blue-lighter);
 }
 
+#listeFrais {
+
+}
+
+
 /* Messages and alerts */
 .alert {
     padding: 15px;
