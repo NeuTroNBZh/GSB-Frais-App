@@ -263,10 +263,16 @@ table tbody tr:hover {
     background-color: var(--gsb-blue-lighter);
 }
 
+/*  Navbar visiteurs    */
+
 #listeInfosVisit {
     display: inline-block;
     gap: 15px;
     list-style: none;
+}
+strong {
+    font-size: 20px;
+    color: var(--gsb-blue-primary);
 }
 
 
