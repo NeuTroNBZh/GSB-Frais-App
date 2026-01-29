@@ -1,41 +1,41 @@
-3 sq Macédoine  
+3 sq MacÃ©doine  
 18 r Duhamel 
-26 r Paul Féval 
+26 r Paul FÃ©val 
 3 r Recteur Paul Henry S
 6 sq Le Gal La Salle 
-20 r Corentin Carré 
+20 r Corentin CarrÃ© 
 18 bd Jacques Cartier 
 72 r Auguste Pavie 
 3 all Lavais 
 11 sq Luxembourg 
 4 av Canada 
-5 A r Gén Audibert 
+5 A r GÃ©n Audibert 
 10 r Doct Roux 
 Le Grand Large 2 quai Douane 
-68 r Jean Jaurès 
+68 r Jean JaurÃ©s 
 36 r Champagne 
-6 r Frédéric Le Guyader
-175 r Marréguès
+6 r FrÃ©dÃ©ric Le Guyader
+175 r MarrÃ©guÃ©s
 33 r Maurice Ravel 
 1 r Michel Ollivier
 4 r Boieldieu 
-19 r Galliéni 
+19 r GalliÃ©ni 
 16 r Doct Bouquet 
 9 av Tarente 
-1 r Henri de Régnier
-62 r Saint Exupéry 
+1 r Henri de RÃ©gnier
+62 r Saint ExupÃ©ry 
 3 r Georges Brassens 
-6 all Kérigonan 
+6 all KÃ©rigonan 
 20 r Simon 
-9 r Kérampéré
+9 r KÃ©rampÃ©rÃ©
 63 r Kermenguy 
-3 r Penthièvre 
-1 r Genêts 
+3 r PenthiÃ©vre 
+1 r GenÃ©ts 
 3 r Michel Ollivier 
 2 r Pablo Neruda 
 4 Bis pl Maurice Gillet 
 49 r Calvaire 
-2 r Gén Margueritte 
+2 r GÃ©n Margueritte 
 17 r Lyon 
 2 r Commdt Somme Py 
 22 r Berthollet 
@@ -43,18 +43,18 @@ Le Grand Large 2 quai Douane
 8 r Navarin 
 13 r Aristide Briand 
 3 r Michel Ollivier 
-8 r Château 
-23 r Jean Macé 
+8 r ChÃ©teau 
+23 r Jean MacÃ© 
 2 r Louis Tiercelin
 83 r Suzanne Guiganton 
 100 r Antoine Vitez 
 3 r Kersaint 
 92 r Richelieu 
-13 r Nominoë 
+13 r NominoÃ© 
 4 r Edmond Audran 
 42 r Marceau 
 4 r Rennes 
-14 r Gén Faidherbe 
+14 r GÃ©n Faidherbe 
 47 bd Montaigne 
 14 r Grand Kerzu 
 4 r Yves Collet 
@@ -67,44 +67,44 @@ Et 3 6 r Loctudy
 207 r Gouesnou 
 3 r Victor Eusen 
 27 r Kermaria 
-3 sq Macédoine  
+3 sq MacÃ©doine  
 18 r Duhamel 
-26 r Paul Féval 
+26 r Paul FÃ©val 
 3 r Recteur Paul Henry S
 6 sq Le Gal La Salle 
-20 r Corentin Carré 
+20 r Corentin CarrÃ© 
 18 bd Jacques Cartier 
 72 r Auguste Pavie 
 3 all Lavais 
 11 sq Luxembourg 
 4 av Canada 
-5 A r Gén Audibert 
+5 A r GÃ©n Audibert 
 10 r Doct Roux 
 Le Grand Large 2 quai Douane 
-68 r Jean Jaurès 
+68 r Jean JaurÃ©s 
 36 r Champagne 
-6 r Frédéric Le Guyader
-175 r Marréguès
+6 r FrÃ©dÃ©ric Le Guyader
+175 r MarrÃ©guÃ©s
 33 r Maurice Ravel 
 1 r Michel Ollivier
 4 r Boieldieu 
-19 r Galliéni 
+19 r GalliÃ©ni 
 16 r Doct Bouquet 
 9 av Tarente 
-1 r Henri de Régnier
-62 r Saint Exupéry 
+1 r Henri de RÃ©gnier
+62 r Saint ExupÃ©ry 
 3 r Georges Brassens 
-6 all Kérigonan 
+6 all KÃ©rigonan 
 20 r Simon 
-9 r Kérampéré
+9 r KÃ©rampÃ©rÃ©
 63 r Kermenguy 
-3 r Penthièvre 
-1 r Genêts 
+3 r PenthiÃ©vre 
+1 r GenÃ©ts 
 3 r Michel Ollivier 
 2 r Pablo Neruda 
 4 Bis pl Maurice Gillet 
 49 r Calvaire 
-2 r Gén Margueritte 
+2 r GÃ©n Margueritte 
 17 r Lyon 
 2 r Commdt Somme Py 
 22 r Berthollet 
@@ -112,18 +112,18 @@ Le Grand Large 2 quai Douane
 8 r Navarin 
 13 r Aristide Briand 
 3 r Michel Ollivier 
-8 r Château 
-23 r Jean Macé 
+8 r ChÃ©teau 
+23 r Jean MacÃ© 
 2 r Louis Tiercelin
 83 r Suzanne Guiganton 
 100 r Antoine Vitez 
 3 r Kersaint 
 92 r Richelieu 
-13 r Nominoë 
+13 r NominoÃ© 
 4 r Edmond Audran 
 42 r Marceau 
 4 r Rennes 
-14 r Gén Faidherbe 
+14 r GÃ©n Faidherbe 
 47 bd Montaigne 
 14 r Grand Kerzu 
 4 r Yves Collet 
@@ -136,44 +136,44 @@ Et 3 6 r Loctudy
 207 r Gouesnou 
 3 r Victor Eusen 
 27 r Kermaria 
-3 sq Macédoine  
+3 sq MacÃ©doine  
 18 r Duhamel 
-26 r Paul Féval 
+26 r Paul FÃ©val 
 3 r Recteur Paul Henry S
 6 sq Le Gal La Salle 
-20 r Corentin Carré 
+20 r Corentin CarrÃ© 
 18 bd Jacques Cartier 
 72 r Auguste Pavie 
 3 all Lavais 
 11 sq Luxembourg 
 4 av Canada 
-5 A r Gén Audibert 
+5 A r GÃ©n Audibert 
 10 r Doct Roux 
 Le Grand Large 2 quai Douane 
-68 r Jean Jaurès 
+68 r Jean JaurÃ©s 
 36 r Champagne 
-6 r Frédéric Le Guyader
-175 r Marréguès
+6 r FrÃ©dÃ©ric Le Guyader
+175 r MarrÃ©guÃ©s
 33 r Maurice Ravel 
 1 r Michel Ollivier
 4 r Boieldieu 
-19 r Galliéni 
+19 r GalliÃ©ni 
 16 r Doct Bouquet 
 9 av Tarente 
-1 r Henri de Régnier
-62 r Saint Exupéry 
+1 r Henri de RÃ©gnier
+62 r Saint ExupÃ©ry 
 3 r Georges Brassens 
-6 all Kérigonan 
+6 all KÃ©rigonan 
 20 r Simon 
-9 r Kérampéré
+9 r KÃ©rampÃ©rÃ©
 63 r Kermenguy 
-3 r Penthièvre 
-1 r Genêts 
+3 r PenthiÃ©vre 
+1 r GenÃ©ts 
 3 r Michel Ollivier 
 2 r Pablo Neruda 
 4 Bis pl Maurice Gillet 
 49 r Calvaire 
-2 r Gén Margueritte 
+2 r GÃ©n Margueritte 
 17 r Lyon 
 2 r Commdt Somme Py 
 22 r Berthollet 
@@ -181,18 +181,18 @@ Le Grand Large 2 quai Douane
 8 r Navarin 
 13 r Aristide Briand 
 3 r Michel Ollivier 
-8 r Château 
-23 r Jean Macé 
+8 r ChÃ©teau 
+23 r Jean MacÃ© 
 2 r Louis Tiercelin
 83 r Suzanne Guiganton 
 100 r Antoine Vitez 
 3 r Kersaint 
 92 r Richelieu 
-13 r Nominoë 
+13 r NominoÃ© 
 4 r Edmond Audran 
 42 r Marceau 
 4 r Rennes 
-14 r Gén Faidherbe 
+14 r GÃ©n Faidherbe 
 47 bd Montaigne 
 14 r Grand Kerzu 
 4 r Yves Collet 
