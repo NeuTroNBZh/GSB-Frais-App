@@ -5,12 +5,14 @@
 	$cnxBDD = connexion();
 
     // les noms sont dans le fichier nom.txt
-	$NomFichier = 'nom.txt';
+	$NomFichier = '../JeuxEssais/nom.txt';
 	$TabloNomFamille = file($NomFichier);
-
+	
 	// les prenoms garcon sont dans le fichier garcon.txt
-	$NomFichier = 'garcon.txt';
+	$NomFichier = '../JeuxEssais/garcon.txt';
 	$TabloPrenom = file($NomFichier);
+
+
 
 	// rand(x, y) fournit un nombre au hasard entre x et y
 	$n = rand(1, sizeof($TabloNomFamille));			// $n contient un numéro de ligne au hasard
@@ -25,5 +27,4 @@
 
 	// Fermer la connexion MYSQL
 	$cnxBDD->close();	 
-
 ?>
