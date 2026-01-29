@@ -263,8 +263,10 @@ table tbody tr:hover {
     background-color: var(--gsb-blue-lighter);
 }
 
-#listeFrais {
-
+#listeInfosVisit {
+    display: inline-block;
+    gap: 15px;
+    list-style: none;
 }
 
 
