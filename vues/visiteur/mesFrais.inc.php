@@ -10,17 +10,18 @@
         <!-- Header -->
         <ul>
             <li><h1>Fiche de frais de : <?php echo $_SESSION['nom']; ?></h1></li>
-            <li>Ajouter </li>
+            <li><p>Ajouter</p> <strong>+</strong></li>
         </ul>
         <!-- Noms collones -->
-        <table>
+        <table id="listeInfosVisit">
             <thead>
                 <tr>
-                    <th>Mois</th>
-                    <th>Montant validé</th>
-                    <th>Nb justificatifs</th>
+                    <th>Identifiant</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Date</th>
+                    <th>Montant total</th>
                     <th>Statut</th>
-                    <th>Date modification</th>
                 </tr>
             </thead>
             <!-- Contenu ligne -->
