@@ -1,33 +1,52 @@
-# Jeu de Tests - Projet GSB Frais App
+# Jeu d’essais – Application de gestion de fiches de remboursement
 
-## Vue d'ensemble
-Ce document décrit les cas de tests pour valider la fonctionnalité de l'application.
+# Sommaire
 
-## Cas de tests
+- [Jeu d’essais – Application de gestion de fiches de remboursement](#jeu-dessais--application-de-gestion-de-fiches-de-remboursement)
+- [Sommaire](#sommaire)
+  - [Objectifs du test](#objectifs-du-test)
+- [Partie 1 : Protocole de Connexion](#partie-1--protocole-de-connexion)
+  - [1. Objectif](#1-objectif)
+  - [2. Pré-requis](#2-pré-requis)
+  - [3. Scénarios de test](#3-scénarios-de-test)
+    - [3.1 Connexion réussie](#31-connexion-réussie)
+    - [3.2 Connexion échouée](#32-connexion-échouée)
+    - [3.3 Redirection selon le rôle](#33-redirection-selon-le-rôle)
+  - [4. Cas de test détaillés](#4-cas-de-test-détaillés)
 
-### Test 1 : Authentification
-- **Objectif** : Vérifier la connexion utilisateur
-- **Étapes** : 
-    1. Accéder à la page de connexion
-    2. Entrer identifiants valides
-    3. Cliquer sur "Connexion"
-- **Résultat attendu** : Redirection vers le tableau de bord
 
-### Test 2 : Gestion des frais
-- **Objectif** : Créer et soumettre une note de frais
-- **Étapes** :
-    1. Naviguer vers "Nouvelle demande"
-    2. Remplir le formulaire
-    3. Ajouter justificatifs
-    4. Soumettre
-- **Résultat attendu** : Confirmation d'enregistrement
 
-### Test 3 : Suivi des dossiers
-- **Objectif** : Consulter l'état des frais soumis
-- **Étapes** :
-    1. Accéder à "Mes dossiers"
-    2. Filtrer par statut
-- **Résultat attendu** : Liste actualisée des demandes
 
-## Notes
-À compléter selon les évolutions du projet.
+## Objectifs du test
+- S'assurer du bon fonctionnement et de la sécurité de l'interface de connexion
+- S'assurer que les fonctions de gestion des utilisateurs 
+
+
+# Partie 1 : Protocole de Connexion
+
+## 1. Objectif
+Vérifier que la fonctionnalité de connexion fonctionne correctement pour les deux rôles de l’application :
+- Visiteur médical
+- Comptable
+
+## 2. Pré-requis
+- Comptes de test créés dans la base de données
+- Application accessible via l’URL de test
+- Navigateur fonctionnel
+
+## 3. Scénarios de test
+### 3.1 Connexion réussie
+- Connexion avec un compte visiteur médical valide
+- Connexion avec un compte comptable valide
+
+### 3.2 Connexion échouée
+- Identifiant incorrect
+- Mot de passe incorrect
+- Champs vides
+
+### 3.3 Redirection selon le rôle
+- Visiteur médical → page de saisie/consultation des frais
+- Comptable → page de suivi comptable
+
+## 4. Cas de test détaillés
+Les cas de test sont listés dans le fichier Excel : **jeu_tests.xlsx**, onglet **Connexion**.
