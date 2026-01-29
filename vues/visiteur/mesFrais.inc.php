@@ -7,6 +7,12 @@
         <p>Vous n'avez pas encore de fiche de frais.</p>
         <p><a href="index.php?action=saisirFrais" class="btn btn-primary">Saisir mes frais</a></p>
     <?php else: ?>
+        <!-- Header -->
+        <ul>
+            <li><h1>Fiche de frais de : <?php echo $_SESSION['nom']; ?></h1></li>
+            <li>Ajouter </li>
+        </ul>
+        <!-- Noms collones -->
         <table>
             <thead>
                 <tr>
@@ -17,6 +23,7 @@
                     <th>Date modification</th>
                 </tr>
             </thead>
+            <!-- Contenu ligne -->
             <tbody>
                 <?php foreach ($ficheFrais as $fiche): ?>
                     <tr>
