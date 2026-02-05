@@ -22,6 +22,9 @@
                     <th>Date</th>
                     <th>Montant total</th>
                     <th>Statut</th>
+                    <th>Supprimer</th>
+                    <th>Modifier</th>
+                    <th>Voir</th>
                 </tr>
             </thead>
             <!-- Contenu ligne -->
