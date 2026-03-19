@@ -8,12 +8,18 @@
  */
 
 // Database configuration
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'localhost'); 
+define('DB_NAME', 'gsb_frais_LUMEN');
+define('DB_USER', 'root');
+define('DB_PASS', 'Iroise29');
+
+/*
+define('DB_HOST', 'localhost'); 
 define('DB_NAME', 'gsb_frais');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
-
+*/
 // Application configuration
 define('APP_NAME', 'GSB Frais App');
 define('BASE_URL', '/');
