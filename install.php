@@ -248,16 +248,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php else: ?>
         <form method="POST" action="">
             <label>Hôte MySQL</label>
-            <input type="text" name="db_host" value="<?php echo htmlspecialchars($_POST['db_host'] ?? 'localhost'); ?>" required>
+            <input type="text" name="db_host" value="<?php echo htmlspecialchars($_POST['db_host'] ?? '192.168.1.103'); ?>" required>
 
             <label>Nom de la base de données</label>
             <input type="text" name="db_name" value="<?php echo htmlspecialchars($_POST['db_name'] ?? 'gsb_frais'); ?>" required>
 
             <label>Utilisateur MySQL</label>
-            <input type="text" name="db_user" value="<?php echo htmlspecialchars($_POST['db_user'] ?? 'root'); ?>" required>
+            <input type="text" name="db_user" value="<?php echo htmlspecialchars($_POST['db_user'] ?? 'gabriel'); ?>" required>
 
             <label>Mot de passe MySQL</label>
-            <input type="password" name="db_pass" value="<?php echo htmlspecialchars($_POST['db_pass'] ?? ''); ?>">
+            <input type="password" name="db_pass" value="<?php echo htmlspecialchars($_POST['db_pass'] ?? 'TheLumen67'); ?>">
 
             <hr>
 
