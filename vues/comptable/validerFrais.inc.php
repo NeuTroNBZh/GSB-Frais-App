@@ -2,6 +2,17 @@
     <div class="card-header">
         <h2>Valider les frais</h2>
     </div>
+
+    <?php
+    $messageType = isset($_GET['message_type']) ? $_GET['message_type'] : 'success';
+    $messageClass = $messageType === 'error' ? 'alert-error' : 'alert-success';
+    ?>
+
+    <?php if (isset($_GET['message']) && $_GET['message'] !== ''): ?>
+        <div class="alert <?php echo htmlspecialchars($messageClass); ?>">
+            <?php echo htmlspecialchars($_GET['message']); ?>
+        </div>
+    <?php endif; ?>
     
     <p>Sélectionnez un visiteur pour consulter et valider ses fiches de frais.</p>
     

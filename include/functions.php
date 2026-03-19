@@ -48,6 +48,33 @@ function connecterUtilisateur($user) {
 }
 
 /**
+ * Get or create the CSRF token stored in session
+ *
+ * @return string CSRF token
+ */
+function obtenirJetonCsrf() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Validate the submitted CSRF token
+ *
+ * @param string|null $token Submitted token
+ * @return bool True when valid, false otherwise
+ */
+function verifierJetonCsrf($token) {
+    if (empty($_SESSION['csrf_token']) || empty($token)) {
+        return false;
+    }
+
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/**
  * Destroy session and logout user
  * 
  * @return void
@@ -78,6 +105,14 @@ function requireAuthentication() {
         header('Location: index.php?action=connexion');
         exit();
     }
+
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > SESSION_TIMEOUT) {
+        deconnecterUtilisateur();
+        header('Location: index.php?action=connexion&erreur=' . urlencode('Session expiree apres inactivite'));
+        exit();
+    }
+
+    $_SESSION['last_activity'] = time();
 }
 
 /**

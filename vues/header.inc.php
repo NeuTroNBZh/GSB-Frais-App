@@ -8,11 +8,12 @@
 </head>
 <body>
 <?php if (estConnecte()): ?>
+<?php $headerUser = isset($user) ? $user : getUtilisateurConnecte(); ?>
 <header>
     <h1><?php echo APP_NAME; ?></h1>
     <div class="user-info">
-        Connecté en tant que: <strong><?php echo htmlspecialchars($user['prenom'] . ' ' . $user['nom']); ?></strong>
-        (<?php echo htmlspecialchars($user['role']); ?>)
+        Connecté en tant que: <strong><?php echo htmlspecialchars($headerUser['prenom'] . ' ' . $headerUser['nom']); ?></strong>
+        (<?php echo htmlspecialchars($headerUser['role']); ?>)
         | <a href="index.php?action=deconnexion" style="color: white;">Déconnexion</a>
     </div>
 </header>

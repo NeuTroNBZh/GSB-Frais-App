@@ -9,7 +9,7 @@
 
 class Database {
     /**
-     * @var PDO|null Database connection instance
+    * @var Database|null Singleton instance
      */
     private static $instance = null;
     
@@ -67,7 +67,7 @@ class Database {
     /**
      * Prevent unserialization of instance
      */
-    public function __wakeup() {
+    private function __wakeup() {
         throw new Exception("Cannot unserialize singleton");
     }
 }

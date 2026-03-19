@@ -30,12 +30,16 @@ switch ($action) {
     case 'deconnexion':
         require_once 'controleurs/deconnexion.php';
         break;
+
+    case 'accueil':
+        require_once 'controleurs/accueil.php';
+        break;
     
     // Visitor actions
-    case 'accueil':
     case 'mesFrais':
     case 'saisirFrais':
     case 'enregistrerFrais':
+    case 'supprimerHorsForfait':
         require_once 'controleurs/visiteur.php';
         break;
     

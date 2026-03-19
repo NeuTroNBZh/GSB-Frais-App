@@ -103,7 +103,8 @@
     <hr>
     
     <h3>Modifier le statut</h3>
-    <form action="index.php?action=validerFiche" method="POST" id="frmValidation">
+    <form action="index.php?action=validerFiche" method="POST" id="frmValidation" class="js-confirm-action" data-confirm-message="Confirmer la mise a jour du statut de cette fiche ?">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
         <input type="hidden" name="fiche_id" value="<?php echo $fiche['id']; ?>">
         
         <div class="form-group">

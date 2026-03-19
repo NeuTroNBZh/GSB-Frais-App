@@ -9,6 +9,7 @@
         <?php endif; ?>
         
         <form action="index.php?action=connexion" method="POST" id="frmConnexion">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
             <div class="form-group">
                 <label for="txtLogin" class="required">Identifiant</label>
                 <input type="text" id="txtLogin" name="txtLogin" required>
