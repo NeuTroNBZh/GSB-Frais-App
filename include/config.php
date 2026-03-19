@@ -8,10 +8,10 @@
  */
 
 // Database configuration
-define('DB_HOST', 'localhost'); 
-define('DB_NAME', 'gsb_frais_LUMEN');
-define('DB_USER', 'root');
-define('DB_PASS', 'Iroise29');
+define('DB_HOST', 'REDACTED_HOST'); 
+define('DB_NAME', 'gsb_frais');
+define('DB_USER', 'REDACTED_USER');
+define('DB_PASS', 'REDACTED');
 define('DB_CHARSET', 'utf8mb4');
 
 /*
