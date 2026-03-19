@@ -12,6 +12,10 @@ requireRole(User::ROLE_VISITOR);
 $user = getUtilisateurConnecte();
 $fraisModel = new Frais();
 $message = '';
+$erreur = '';
+$moisCourant = date('Y-m');
+
+$fraisModel->cloturerFichesAnciennes($user['id'], $moisCourant);
 
 // Handle different actions
 switch ($action) {
@@ -27,20 +31,23 @@ switch ($action) {
     
     case 'saisirFrais':
         // Display expense entry form
-        $mois = date('Y-m');
+        $mois = $moisCourant;
+        $message = isset($_GET['message']) ? sanitize($_GET['message']) : '';
+        $erreur = isset($_GET['erreur']) ? sanitize($_GET['erreur']) : '';
         
         // Get or create current month expense sheet
-        $ficheFrais = $fraisModel->getFichesFraisByVisiteur($user['id'], Frais::STATUS_EN_COURS);
+        $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $mois);
         
-        if (empty($ficheFrais)) {
+        if (!$ficheFrais) {
             $ficheId = $fraisModel->createFicheFrais($user['id'], $mois);
         } else {
-            $ficheId = $ficheFrais[0]['id'];
+            $ficheId = $ficheFrais['id'];
         }
         
         $fraisForfait = $fraisModel->getFraisForfait($ficheId);
         $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
         $typesForfait = $fraisModel->getFraisForfaitTypes();
+        $csrfToken = obtenirJetonCsrf();
         
         require_once 'vues/header.inc.php';
         require_once 'vues/menu.inc.php';
@@ -51,7 +58,26 @@ switch ($action) {
     case 'enregistrerFrais':
         // Handle expense form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
+                $message = 'Jeton de securite invalide';
+                header('Location: index.php?action=saisirFrais&message=' . urlencode($message));
+                exit();
+            }
+
             $ficheId = isset($_POST['fiche_id']) ? intval($_POST['fiche_id']) : 0;
+            $fiche = $fraisModel->getFicheFraisById($ficheId);
+
+            if (!$fiche || (int) $fiche['visiteur_id'] !== (int) $user['id']) {
+                $message = 'Fiche de frais invalide';
+                header('Location: index.php?action=saisirFrais&message=' . urlencode($message));
+                exit();
+            }
+
+            if ($fiche['statut'] !== Frais::STATUS_EN_COURS) {
+                $message = 'Seules les fiches en cours peuvent etre modifiees';
+                header('Location: index.php?action=saisirFrais&message=' . urlencode($message));
+                exit();
+            }
             
             // Update forfait expenses
             $typesForfait = $fraisModel->getFraisForfaitTypes();
@@ -71,12 +97,44 @@ switch ($action) {
                 
                 $fraisModel->addFraisHorsForfait($ficheId, $date, $libelle, $montant);
             }
+
+            $fraisModel->recalculerMontantValide($ficheId);
             
             $message = 'Frais enregistrés avec succès';
         }
         
         // Redirect back to expense entry
         header('Location: index.php?action=saisirFrais&message=' . urlencode($message));
+        exit();
+        break;
+
+    case 'supprimerHorsForfait':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
+                $erreur = 'Jeton de securite invalide';
+                header('Location: index.php?action=saisirFrais&erreur=' . urlencode($erreur));
+                exit();
+            }
+
+            $ligneId = isset($_POST['ligne_id']) ? intval($_POST['ligne_id']) : 0;
+            $ligne = $fraisModel->getLigneFraisHorsForfaitById($ligneId);
+
+            if (!$ligne) {
+                $erreur = 'Ligne hors forfait introuvable';
+            } elseif ((int) $ligne['visiteur_id'] !== (int) $user['id']) {
+                $erreur = 'Action non autorisee';
+            } elseif ($ligne['statut'] !== Frais::STATUS_EN_COURS) {
+                $erreur = 'Seules les fiches en cours peuvent etre modifiees';
+            } else {
+                $fraisModel->deleteFraisHorsForfait($ligneId);
+                $fraisModel->recalculerMontantValide((int) $ligne['fiche_frais_id']);
+                $message = 'Ligne hors forfait supprimee avec succes';
+            }
+        }
+
+        $queryKey = $erreur !== '' ? 'erreur' : 'message';
+        $queryValue = $erreur !== '' ? $erreur : $message;
+        header('Location: index.php?action=saisirFrais&' . $queryKey . '=' . urlencode($queryValue));
         exit();
         break;
     

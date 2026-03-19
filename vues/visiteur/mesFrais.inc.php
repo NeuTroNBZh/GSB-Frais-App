@@ -7,30 +7,23 @@
         <p>Vous n'avez pas encore de fiche de frais.</p>
         <p><a href="index.php?action=saisirFrais" class="btn btn-primary">Saisir mes frais</a></p>
     <?php else: ?>
-        <!-- Header -->
-        <ul>
-            <li><h1>Fiche de frais de : <?php echo $_SESSION['nom']; ?></h1></li>
-            <li><p>Ajouter</p> <strong>+</strong></li>
-        </ul>
-        <!-- Noms collones -->
+        <p>Fiches de frais de <?php echo htmlspecialchars($user['prenom'] . ' ' . $user['nom']); ?>.</p>
+
         <table id="listeInfosVisit">
             <thead>
                 <tr>
-                    <th>Identifiant</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Date</th>
+                    <th>ID</th>
+                    <th>Mois</th>
                     <th>Montant total</th>
+                    <th>Nb justificatifs</th>
                     <th>Statut</th>
-                    <th>Supprimer</th>
-                    <th>Modifier</th>
-                    <th>Voir</th>
+                    <th>Date modification</th>
                 </tr>
             </thead>
-            <!-- Contenu ligne -->
             <tbody>
                 <?php foreach ($ficheFrais as $fiche): ?>
                     <tr>
+                        <td><?php echo htmlspecialchars($fiche['id']); ?></td>
                         <td><?php echo htmlspecialchars($fiche['mois']); ?></td>
                         <td><?php echo number_format($fiche['montant_valide'], 2, ',', ' '); ?> €</td>
                         <td><?php echo htmlspecialchars($fiche['nb_justificatifs']); ?></td>

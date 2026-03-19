@@ -99,4 +99,157 @@ class User {
         
         return $stmt->fetchAll();
     }
+
+    /**
+     * Get all users for admin management
+     *
+     * @return array Array of users
+     */
+    public function getAllUsers($limit = null, $offset = 0) {
+        $sql = "SELECT id, login, nom, prenom, role, date_creation
+                FROM utilisateurs
+                ORDER BY nom, prenom";
+
+        if ($limit !== null) {
+            $sql .= " LIMIT :limit OFFSET :offset";
+        }
+
+        $stmt = $this->db->prepare($sql);
+
+        if ($limit !== null) {
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Count total users
+     *
+     * @return int Total users
+     */
+    public function countAllUsers() {
+        $sql = "SELECT COUNT(*) FROM utilisateurs";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return (int) $stmt->fetchColumn();
+    }
+
+    /**
+     * Create a new user
+     *
+     * @param string $login Login
+     * @param string $password Plain password
+     * @param string $nom Last name
+     * @param string $prenom First name
+     * @param string $role Role
+     * @return bool Success status
+     */
+    public function createUser($login, $password, $nom, $prenom, $role) {
+        $sql = "INSERT INTO utilisateurs (login, mot_de_passe, nom, prenom, role)
+                VALUES (:login, :mot_de_passe, :nom, :prenom, :role)";
+
+        $stmt = $this->db->prepare($sql);
+        $motDePasseHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+        $stmt->bindParam(':mot_de_passe', $motDePasseHash, PDO::PARAM_STR);
+        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+        $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Update an existing user
+     *
+     * @param int $userId User ID
+     * @param string $login Login
+     * @param string $nom Last name
+     * @param string $prenom First name
+     * @param string $role Role
+     * @param string|null $password Optional plain password
+     * @return bool Success status
+     */
+    public function updateUser($userId, $login, $nom, $prenom, $role, $password = null) {
+        if ($password !== null && $password !== '') {
+            $sql = "UPDATE utilisateurs
+                    SET login = :login,
+                        mot_de_passe = :mot_de_passe,
+                        nom = :nom,
+                        prenom = :prenom,
+                        role = :role
+                    WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $motDePasseHash = password_hash($password, PASSWORD_DEFAULT);
+            $stmt->bindParam(':mot_de_passe', $motDePasseHash, PDO::PARAM_STR);
+        } else {
+            $sql = "UPDATE utilisateurs
+                    SET login = :login,
+                        nom = :nom,
+                        prenom = :prenom,
+                        role = :role
+                    WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+        }
+
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+        $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Delete an existing user
+     *
+     * @param int $userId User ID
+     * @return bool Success status
+     */
+    public function deleteUser($userId) {
+        $sql = "DELETE FROM utilisateurs WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Check whether a login already exists
+     *
+     * @param string $login Login
+     * @param int|null $excludeUserId User ID to exclude from the check
+     * @return bool True if the login exists, false otherwise
+     */
+    public function loginExists($login, $excludeUserId = null) {
+        $sql = "SELECT COUNT(*)
+                FROM utilisateurs
+                WHERE login = :login";
+
+        if ($excludeUserId !== null) {
+            $sql .= " AND id != :exclude_id";
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+
+        if ($excludeUserId !== null) {
+            $stmt->bindParam(':exclude_id', $excludeUserId, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+
+        return (int) $stmt->fetchColumn() > 0;
+    }
 }

@@ -3,13 +3,20 @@
         <h2>Saisir mes frais</h2>
     </div>
     
-    <?php if (isset($_GET['message'])): ?>
+    <?php if ($message !== ''): ?>
         <div class="alert alert-success">
-            <?php echo htmlspecialchars($_GET['message']); ?>
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($erreur !== ''): ?>
+        <div class="alert alert-error">
+            <?php echo htmlspecialchars($erreur); ?>
         </div>
     <?php endif; ?>
     
     <form action="index.php?action=enregistrerFrais" method="POST" id="frmSaisieFrais">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
         <input type="hidden" name="fiche_id" value="<?php echo htmlspecialchars($ficheId); ?>">
         
         <h3>Frais au forfait</h3>
@@ -70,6 +77,7 @@
                     <th>Date</th>
                     <th>Libellé</th>
                     <th>Montant</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,6 +86,13 @@
                         <td><?php echo htmlspecialchars($frais['date']); ?></td>
                         <td><?php echo htmlspecialchars($frais['libelle']); ?></td>
                         <td><?php echo number_format($frais['montant'], 2, ',', ' '); ?> €</td>
+                        <td>
+                            <form action="index.php?action=supprimerHorsForfait" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer ce frais hors forfait ?">
+                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+                                <input type="hidden" name="ligne_id" value="<?php echo (int) $frais['id']; ?>">
+                                <button type="submit" class="btn btn-warning">Supprimer</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

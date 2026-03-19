@@ -55,6 +55,20 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <?php if ($totalPages > 1): ?>
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a class="btn btn-secondary" href="index.php?action=listeFraisVisiteur&visiteur=<?php echo (int) $visiteur['id']; ?>&page=<?php echo $page - 1; ?>">Précédent</a>
+                <?php endif; ?>
+
+                <span class="pagination-info">Page <?php echo $page; ?> / <?php echo $totalPages; ?></span>
+
+                <?php if ($page < $totalPages): ?>
+                    <a class="btn btn-secondary" href="index.php?action=listeFraisVisiteur&visiteur=<?php echo (int) $visiteur['id']; ?>&page=<?php echo $page + 1; ?>">Suivant</a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 <?php require_once 'vues/menu_close.inc.php'; ?>
