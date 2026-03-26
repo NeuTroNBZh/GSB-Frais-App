@@ -18,6 +18,7 @@
                     <th>Nb justificatifs</th>
                     <th>Statut</th>
                     <th>Date modification</th>
+                    <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,6 +51,8 @@
                             </span>
                         </td>
                         <td><?php echo htmlspecialchars($fiche['date_modif']); ?></td>
+                        <td><button class="btn btn-sm btn-outline-primary">Modifier</button></td>
+                        <td><button class="btn btn-sm btn-outline-danger">Supprimer</button></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
