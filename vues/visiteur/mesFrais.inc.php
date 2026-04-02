@@ -1,6 +1,13 @@
-<div class="card">
+<div class="card"  id="listeInfosVisit">
     <div class="card-header">
-        <h2>Mes fiches de frais</h2>
+        <table>
+            <tbody style="text-align: center;">
+                <tr>
+                    <td><h2>Mes fiches de frais</h2></td>
+                    <td><button href="page2.html"style="float: right;" class="btn btn-primary" onclick="window.location.href='index.php?action=saisirFrais'">Saisir mes frais</button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     
     <?php if (empty($ficheFrais)): ?>
@@ -51,8 +58,9 @@
                             </span>
                         </td>
                         <td><?php echo htmlspecialchars($fiche['date_modif']); ?></td>
-                        <td><button class="btn btn-sm btn-outline-primary">Modifier</button></td>
-                        <td><button class="btn btn-sm btn-outline-danger">Supprimer</button></td>
+                        <td><button class="btn btn-primary">Modifier</button></td>
+                        <td><button class="btn btn-warning">Supprimer</button></td>
+                        
                     </tr>
                 <?php endforeach; ?>
             </tbody>

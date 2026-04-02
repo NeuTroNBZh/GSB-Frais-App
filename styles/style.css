@@ -259,21 +259,62 @@ table td {
     border-bottom: 1px solid var(--gsb-gray-medium);
 }
 
-table tbody tr:nth-child(even) {
-    background-color: #fafcff;
-}
-
 table tbody tr:hover {
     background-color: var(--gsb-blue-lighter);
 }
 
-/*  Navbar visiteurs    */
+/* Partie carte visiteur */
+/* ─── Conteneur principal ─────────────────────────────────────────────────── */
 
 #listeInfosVisit {
-    display: inline-block;
-    gap: 15px;
-    list-style: none;
+    padding: 0 25px 25px 25px;
 }
+
+.card #listeInfosVisit {
+    padding: 0 20px;
+}
+
+.content-wrapper #listeInfosVisit {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+/* ─── Table ───────────────────────────────────────────────────────────────── */
+
+#listeInfosVisit table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+/* ─── En-tête ─────────────────────────────────────────────────────────────── */
+
+#listeInfosVisit table thead {
+    background-color: var(--gsb-blue-primary);
+    color: var(--gsb-white);
+}
+
+/* ─── Cellules ────────────────────────────────────────────────────────────── */
+
+#listeInfosVisit table th,
+#listeInfosVisit table td {
+    padding: 12px;
+    text-align: center;      /* styledist : centré (vs left dans stylew) */
+    border-bottom: 1px solid var(--gsb-gray-medium);
+}
+
+/* ─── Lignes paires (zébrage) — présent dans styledist uniquement ─────────── */
+
+#listeInfosVisit table tbody tr:nth-child(even) {
+    background-color: #fafcff;
+}
+
+/* ─── Hover lignes ────────────────────────────────────────────────────────── */
+
+#listeInfosVisit table tbody tr:hover {
+    background-color: var(--gsb-blue-lighter);
+}
+
 strong {
     font-size: 20px;
     color: var(--gsb-blue-primary);
@@ -411,63 +452,4 @@ footer {
     content: "";
     display: table;
     clear: both;
-}
-
-.inline-form {
-    display: inline-block;
-    margin: 0 0 0 10px;
-}
-
-.actions-cell {
-    white-space: nowrap;
-}
-
-.form-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.form-actions .btn {
-    margin: 0;
-}
-
-.report-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.report-card {
-    background-color: var(--gsb-blue-lighter);
-    border: 1px solid var(--gsb-blue-light);
-    border-radius: 6px;
-    padding: 15px;
-}
-
-.report-card h3 {
-    font-size: 14px;
-    color: var(--gsb-blue-primary);
-    margin-bottom: 8px;
-}
-
-.report-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--gsb-blue-secondary);
-}
-
-.pagination {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.pagination-info {
-    color: var(--gsb-gray-dark);
-    font-weight: 600;
 }
