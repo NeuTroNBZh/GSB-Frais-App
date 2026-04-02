@@ -58,6 +58,7 @@ header h1 {
 }
 
 header .user-info {
+    color: var(--gsb-white);
     font-size: 12px;
     margin-top: 10px;
 }
