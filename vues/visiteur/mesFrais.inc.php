@@ -59,8 +59,13 @@
                         </td>
                         <td><?php echo htmlspecialchars($fiche['date_modif']); ?></td>
                         <td><button class="btn btn-primary">Modifier</button></td>
-                        <td><button class="btn btn-warning">Supprimer</button></td>
-                        
+                        <td>
+                            <form action="index.php?action=supprimerHorsForfait" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer ce frais hors forfait ?">
+                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+                                <input type="hidden" name="ligne_id" value="<?php echo (int) $frais['id']; ?>">
+                                <button type="submit" class="btn btn-warning">Supprimer</button>
+                            </form>
+                        </td>                        
                     </tr>
                 <?php endforeach; ?>
             </tbody>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User model class
  * Handles user authentication and role management
@@ -7,26 +8,28 @@
  * @version 1.0
  */
 
-class User {
+class User
+{
     /**
      * @var PDO Database connection
      */
     private $db;
-    
+
     /**
      * User roles constants
      */
     const ROLE_VISITOR = 'visiteur';
     const ROLE_ACCOUNTANT = 'comptable';
     const ROLE_ADMIN = 'admin';
-    
+
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
-    
+
     /**
      * Authenticate user with login and password
      * 
@@ -34,43 +37,45 @@ class User {
      * @param string $password User password
      * @return array|bool User data array if success, false otherwise
      */
-    public function authenticate($login, $password) {
+    public function authenticate($login, $password)
+    {
         $sql = "SELECT id, login, nom, prenom, role, mot_de_passe 
                 FROM utilisateurs 
                 WHERE login = :login";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':login', $login, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $user = $stmt->fetch();
-        
+
         if ($user && password_verify($password, $user['mot_de_passe'])) {
             unset($user['mot_de_passe']);
             return $user;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Get user by ID
      * 
      * @param int $userId User ID
      * @return array|bool User data array if found, false otherwise
      */
-    public function getUserById($userId) {
+    public function getUserById($userId)
+    {
         $sql = "SELECT id, login, nom, prenom, role 
                 FROM utilisateurs 
                 WHERE id = :id";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         return $stmt->fetch();
     }
-    
+
     /**
      * Check if user has specific role
      * 
@@ -78,25 +83,27 @@ class User {
      * @param array $user User data array
      * @return bool True if user has role, false otherwise
      */
-    public function hasRole($role, $user) {
+    public function hasRole($role, $user)
+    {
         return isset($user['role']) && $user['role'] === $role;
     }
-    
+
     /**
      * Get all visitors for accountant/admin
      * 
      * @return array Array of visitors
      */
-    public function getAllVisitors() {
+    public function getAllVisitors()
+    {
         $sql = "SELECT id, login, nom, prenom 
                 FROM utilisateurs 
                 WHERE role = :role 
                 ORDER BY nom, prenom";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':role', self::ROLE_VISITOR, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         return $stmt->fetchAll();
     }
 
@@ -105,7 +112,8 @@ class User {
      *
      * @return array Array of users
      */
-    public function getAllUsers($limit = null, $offset = 0) {
+    public function getAllUsers($limit = null, $offset = 0)
+    {
         $sql = "SELECT id, login, nom, prenom, role, date_creation
                 FROM utilisateurs
                 ORDER BY nom, prenom";
@@ -131,7 +139,8 @@ class User {
      *
      * @return int Total users
      */
-    public function countAllUsers() {
+    public function countAllUsers()
+    {
         $sql = "SELECT COUNT(*) FROM utilisateurs";
 
         $stmt = $this->db->prepare($sql);
@@ -150,7 +159,8 @@ class User {
      * @param string $role Role
      * @return bool Success status
      */
-    public function createUser($login, $password, $nom, $prenom, $role) {
+    public function createUser($login, $password, $nom, $prenom, $role)
+    {
         $sql = "INSERT INTO utilisateurs (login, mot_de_passe, nom, prenom, role)
                 VALUES (:login, :mot_de_passe, :nom, :prenom, :role)";
 
@@ -177,7 +187,8 @@ class User {
      * @param string|null $password Optional plain password
      * @return bool Success status
      */
-    public function updateUser($userId, $login, $nom, $prenom, $role, $password = null) {
+    public function updateUser($userId, $login, $nom, $prenom, $role, $password = null)
+    {
         if ($password !== null && $password !== '') {
             $sql = "UPDATE utilisateurs
                     SET login = :login,
@@ -216,7 +227,8 @@ class User {
      * @param int $userId User ID
      * @return bool Success status
      */
-    public function deleteUser($userId) {
+    public function deleteUser($userId)
+    {
         $sql = "DELETE FROM utilisateurs WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
@@ -232,7 +244,8 @@ class User {
      * @param int|null $excludeUserId User ID to exclude from the check
      * @return bool True if the login exists, false otherwise
      */
-    public function loginExists($login, $excludeUserId = null) {
+    public function loginExists($login, $excludeUserId = null)
+    {
         $sql = "SELECT COUNT(*)
                 FROM utilisateurs
                 WHERE login = :login";

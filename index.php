@@ -40,6 +40,8 @@ switch ($action) {
     case 'saisirFrais':
     case 'enregistrerFrais':
     case 'supprimerHorsForfait':
+    case 'modifierFrais':
+    case 'enregistrerModification':
         require_once 'controleurs/visiteur.php';
         break;
     
