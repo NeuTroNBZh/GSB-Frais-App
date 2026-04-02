@@ -58,10 +58,16 @@ header h1 {
 }
 
 header .user-info {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+header .user-info {
     color: var(--gsb-white);
     font-size: 12px;
     margin-top: 10px;
 }
+
 
 /* Sidebar menu */
 .sidebar {
