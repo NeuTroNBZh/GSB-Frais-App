@@ -68,7 +68,7 @@
                         <td>
                             <form action="index.php?action=supprimerHorsForfait" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer ce frais hors forfait ?">
                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
-                                <input type="hidden" name="ligne_id" value="<?php echo (int) $frais['id']; ?>">
+                                <input type="hidden" name="ligne_id" value="<?php echo (int) $fiche['id']; ?>">
                                 <button type="submit" class="btn btn-warning">Supprimer</button>
                             </form>
                         </td>                        

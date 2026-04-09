@@ -23,6 +23,9 @@ switch ($action) {
     case 'mesFrais':
         // Display visitor's expense sheets
         $ficheFrais = $fraisModel->getFichesFraisByVisiteur($user['id']);
+        $csrfToken = obtenirJetonCsrf();
+        $message = isset($_GET['message']) ? sanitize($_GET['message']) : '';
+        $erreur = isset($_GET['erreur']) ? sanitize($_GET['erreur']) : '';
         
         require_once 'vues/header.inc.php';
         require_once 'vues/menu.inc.php';
@@ -175,34 +178,6 @@ switch ($action) {
             $erreur = 'Cette fiche ne peut pas être modifiée';
             $mois = null;
         } else {
-            $ficheId = $ficheFrais['id'];
-            $fraisForfait = $fraisModel->getFraisForfait($ficheId);
-            $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
-            $typesForfait = $fraisModel->getFraisForfaitTypes();
-            $csrfToken = obtenirJetonCsrf();
-        }
-    }
-
-    require_once 'vues/header.inc.php';
-    require_once 'vues/menu.inc.php';
-    require_once 'vues/visiteur/modifierFichePrecedente.inc.php';
-    require_once 'vues/footer.inc.php';
-    break;
-        
-    case 'modifierFichePrecedente':
-    $mois = isset($_GET['mois']) ? sanitize($_GET['mois']) : null;
-
-    $fichesDispo = $fraisModel->getFichesFraisByVisiteur($user['id']);
-
-    if ($mois) {
-        $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $mois);
-
-        if (!$ficheFrais || $ficheFrais['statut'] === Frais::STATUS_CLOTURE) {
-            // Bloque l'accès si clôturée
-            $erreur = 'Cette fiche ne peut pas être modifiée';
-            $mois = null;
-        } else {
-            // Statuts autorisés : EN_COURS, VALIDE, REMBOURSE...
             $ficheId = $ficheFrais['id'];
             $fraisForfait = $fraisModel->getFraisForfait($ficheId);
             $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
