@@ -58,7 +58,13 @@
                             </span>
                         </td>
                         <td><?php echo htmlspecialchars($fiche['date_modif']); ?></td>
-                        <td><button class="btn btn-primary">Modifier</button></td>
+                        <td>
+                            <?php if ($fiche['statut'] === 'En cours'): ?>
+                                <a href="index.php?action=saisirFrais&fiche_id=<?php echo $fiche['id']; ?>" class="btn btn-primary">Modifier</a>
+                            <?php else: ?>
+                                <span class="text-muted">Non modifiable</span>
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <form action="index.php?action=supprimerHorsForfait" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer ce frais hors forfait ?">
                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">

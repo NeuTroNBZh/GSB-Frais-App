@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h2>Saisir mes frais</h2>
+        <h2><?php echo $isEditing ? 'Modifier mes frais' : 'Saisir mes frais'; ?></h2>
     </div>
     
     <?php if ($message !== ''): ?>
@@ -18,6 +18,7 @@
     <form action="index.php?action=enregistrerFrais" method="POST" id="frmSaisieFrais">
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
         <input type="hidden" name="fiche_id" value="<?php echo htmlspecialchars($ficheId); ?>">
+        <input type="hidden" name="is_editing" value="<?php echo $isEditing ? '1' : '0'; ?>">
         
         <h3>Frais au forfait</h3>
         <p>Saisissez les quantités pour chaque type de frais forfaitaires du mois en cours.</p>
