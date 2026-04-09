@@ -1,4 +1,10 @@
 <?php
+
+// à supprimer après tests
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * Front Controller for GSB-Frais-App
  * Main entry point for all requests
