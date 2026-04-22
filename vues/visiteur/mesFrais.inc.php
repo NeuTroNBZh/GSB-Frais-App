@@ -58,13 +58,23 @@
                             </span>
                         </td>
                         <td><?php echo htmlspecialchars($fiche['date_modif']); ?></td>
-                        <td><button class="btn btn-primary">Modifier</button></td>
                         <td>
-                            <form action="index.php?action=supprimerHorsForfait" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer ce frais hors forfait ?">
-                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
-                                <input type="hidden" name="ligne_id" value="<?php echo (int) $frais['id']; ?>">
-                                <button type="submit" class="btn btn-warning">Supprimer</button>
-                            </form>
+                            <?php if ($fiche['statut'] === Frais::STATUS_EN_COURS): ?>
+                                <a href="index.php?action=saisirFrais&fiche_id=<?php echo (int) $fiche['id']; ?>" class="btn btn-primary">Modifier</a>
+                            <?php else: ?>
+                                <button class="btn btn-primary" disabled title="Seules les fiches en cours peuvent être modifiées" style="opacity:0.4;cursor:not-allowed;">Modifier</button>
+                            <?php endif; ?>
+                            </td>
+                            <td>
+                            <?php if ($fiche['statut'] === Frais::STATUS_EN_COURS): ?>
+                                <form action="index.php?action=supprimerFiche" method="POST" class="inline-form" onsubmit="return confirm('Supprimer définitivement cette fiche de frais ?');">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+                                    <input type="hidden" name="fiche_id" value="<?php echo (int) $fiche['id']; ?>">
+                                    <button type="submit" class="btn btn-warning">Supprimer</button>
+                                </form>
+                            <?php else: ?>
+                                <button class="btn btn-warning" disabled title="Seules les fiches en cours peuvent être supprimées" style="opacity:0.4;cursor:not-allowed;">Supprimer</button>
+                            <?php endif; ?>
                         </td>                        
                     </tr>
                 <?php endforeach; ?>

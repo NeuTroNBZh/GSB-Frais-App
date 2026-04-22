@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" id="welcome-message">
     <div class="card-header">
         <h2>Bienvenue sur <?php echo APP_NAME; ?></h2>
     </div>

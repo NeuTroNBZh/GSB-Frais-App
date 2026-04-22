@@ -57,7 +57,7 @@ header h1 {
     margin-bottom: 5px;
 }
 
-header .user-info strong{
+header .user-info strong {
     color: var(--gsb-white);
     font-size: 12px;
     margin-top: 10px;
@@ -116,6 +116,10 @@ header .user-info strong{
     margin-bottom: 20px;
 }
 
+#welcome-message {
+    max-width: 500px;
+}
+
 .card-header {
     border-bottom: 2px solid var(--gsb-blue-primary);
     padding-bottom: 10px;
@@ -125,6 +129,12 @@ header .user-info strong{
 .card-header h2 {
     color: var(--gsb-blue-primary);
     font-size: 22px;
+}
+.card-body {
+    margin-left: 5px;
+}
+.card-body ul{
+    margin-left: 30px;
 }
 
 /* Forms */
