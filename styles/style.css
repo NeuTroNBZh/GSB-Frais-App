@@ -57,7 +57,7 @@ header h1 {
     margin-bottom: 5px;
 }
 
-header .user-info {
+header .user-info strong{
     color: var(--gsb-white);
     font-size: 12px;
     margin-top: 10px;
