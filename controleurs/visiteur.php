@@ -22,6 +22,9 @@ switch ($action) {
     case 'mesFrais':
         // Display visitor's expense sheets
         $ficheFrais = $fraisModel->getFichesFraisByVisiteur($user['id']);
+        $csrfToken = obtenirJetonCsrf();
+        $message = isset($_GET['message']) ? sanitize($_GET['message']) : '';
+        $erreur = isset($_GET['erreur']) ? sanitize($_GET['erreur']) : '';
         
         require_once 'vues/header.inc.php';
         require_once 'vues/menu.inc.php';
@@ -31,23 +34,45 @@ switch ($action) {
     
     case 'saisirFrais':
         // Display expense entry form
-        $mois = $moisCourant;
         $message = isset($_GET['message']) ? sanitize($_GET['message']) : '';
         $erreur = isset($_GET['erreur']) ? sanitize($_GET['erreur']) : '';
         
-        // Get or create current month expense sheet
-        $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $mois);
-        
-        if (!$ficheFrais) {
-            $ficheId = $fraisModel->createFicheFrais($user['id'], $mois);
+        if (isset($_GET['fiche_id'])) {
+            // Editing an existing fiche
+            $ficheId = intval($_GET['fiche_id']);
+            $fiche = $fraisModel->getFicheFraisById($ficheId);
+            if (!$fiche || (int) $fiche['visiteur_id'] !== (int) $user['id']) {
+                $erreur = 'Fiche de frais invalide ou accès non autorisé';
+                header('Location: index.php?action=mesFrais&erreur=' . urlencode($erreur));
+                exit();
+            }
+            if ($fiche['statut'] !== Frais::STATUS_EN_COURS) {
+                $erreur = 'Seules les fiches en cours peuvent être modifiées';
+                header('Location: index.php?action=mesFrais&erreur=' . urlencode($erreur));
+                exit();
+            }
         } else {
-            $ficheId = $ficheFrais['id'];
+            // Get or create current month expense sheet
+            $mois = $moisCourant;
+            $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $mois);
+            
+            if (!$ficheFrais) {
+                $ficheId = $fraisModel->createFicheFrais($user['id'], $mois);
+            } else {
+                if ($ficheFrais['statut'] !== Frais::STATUS_EN_COURS) {
+                    $erreur = 'La fiche du mois en cours n\'est pas modifiable';
+                    header('Location: index.php?action=mesFrais&erreur=' . urlencode($erreur));
+                    exit();
+                }
+                $ficheId = $ficheFrais['id'];
+            }
         }
         
         $fraisForfait = $fraisModel->getFraisForfait($ficheId);
         $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
         $typesForfait = $fraisModel->getFraisForfaitTypes();
         $csrfToken = obtenirJetonCsrf();
+        $isEditing = isset($_GET['fiche_id']);
         
         require_once 'vues/header.inc.php';
         require_once 'vues/menu.inc.php';
@@ -57,6 +82,7 @@ switch ($action) {
     
     case 'enregistrerFrais':
         // Handle expense form submission
+        $redirectAction = 'saisirFrais';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
                 $message = 'Jeton de securite invalide';
@@ -101,10 +127,38 @@ switch ($action) {
             $fraisModel->recalculerMontantValide($ficheId);
             
             $message = 'Frais enregistrés avec succès';
+            $redirectAction = (isset($_POST['is_editing']) && $_POST['is_editing'] === '1') ? 'mesFrais' : 'saisirFrais';
         }
         
         // Redirect back to expense entry
-        header('Location: index.php?action=saisirFrais&message=' . urlencode($message));
+        header('Location: index.php?action=' . $redirectAction . '&message=' . urlencode($message));
+        exit();
+        break;
+
+    case 'supprimerFiche':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
+                $erreur = 'Jeton de securite invalide';
+                header('Location: index.php?action=mesFrais&erreur=' . urlencode($erreur));
+                exit();
+            }
+
+            $ficheId = isset($_POST['fiche_id']) ? intval($_POST['fiche_id']) : 0;
+            $fiche = $fraisModel->getFicheFraisById($ficheId);
+
+            if (!$fiche || (int) $fiche['visiteur_id'] !== (int) $user['id']) {
+                $erreur = 'Fiche introuvable ou accès non autorisé';
+            } elseif ($fiche['statut'] === Frais::STATUS_CLOTURE) {
+                $erreur = 'Une fiche clôturée ne peut pas être supprimée';
+            } else {
+                $fraisModel->deleteFicheFrais($ficheId);
+                $message = 'Fiche supprimée avec succès';
+            }
+        }
+
+        $queryKey = !empty($erreur) ? 'erreur' : 'message';
+        $queryValue = !empty($erreur) ? $erreur : $message;
+        header('Location: index.php?action=mesFrais&' . $queryKey . '=' . urlencode($queryValue));
         exit();
         break;
 
@@ -155,34 +209,6 @@ switch ($action) {
             $erreur = 'Cette fiche ne peut pas être modifiée';
             $mois = null;
         } else {
-            $ficheId = $ficheFrais['id'];
-            $fraisForfait = $fraisModel->getFraisForfait($ficheId);
-            $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
-            $typesForfait = $fraisModel->getFraisForfaitTypes();
-            $csrfToken = obtenirJetonCsrf();
-        }
-    }
-
-    require_once 'vues/header.inc.php';
-    require_once 'vues/menu.inc.php';
-    require_once 'vues/visiteur/modifierFichePrecedente.inc.php';
-    require_once 'vues/footer.inc.php';
-    break;
-        
-    case 'modifierFichePrecedente':
-    $mois = isset($_GET['mois']) ? sanitize($_GET['mois']) : null;
-
-    $fichesDispo = $fraisModel->getFichesFraisByVisiteur($user['id']);
-
-    if ($mois) {
-        $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $mois);
-
-        if (!$ficheFrais || $ficheFrais['statut'] === Frais::STATUS_CLOTURE) {
-            // Bloque l'accès si clôturée
-            $erreur = 'Cette fiche ne peut pas être modifiée';
-            $mois = null;
-        } else {
-            // Statuts autorisés : EN_COURS, VALIDE, REMBOURSE...
             $ficheId = $ficheFrais['id'];
             $fraisForfait = $fraisModel->getFraisForfait($ficheId);
             $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
