@@ -7,20 +7,24 @@
  * @version 1.0
  */
 
-// Database configuration
-/*
+// Database configuration prod
+
 define('DB_HOST', '192.168.1.103'); 
 define('DB_NAME', 'gsb_frais');
 define('DB_USER', 'gabriel');
 define('DB_PASS', 'TheLumen67');
 define('DB_CHARSET', 'utf8mb4');
-*/
 
+
+// Test configuration for podman
+/*
 define('DB_HOST', 'db'); 
 define('DB_NAME', 'gsb_frais');
 define('DB_USER', 'gsb_user');
 define('DB_PASS', 'gsb_pass');
 define('DB_CHARSET', 'utf8mb4');
+*/
+
 /*
 define('DB_HOST', 'localhost'); 
 define('DB_NAME', 'gsb_frais');
