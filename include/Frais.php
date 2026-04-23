@@ -278,6 +278,19 @@ class Frais {
     }
 
     /**
+     * Delete an entire expense sheet and its lines
+     *
+     * @param int $ficheId Expense sheet ID
+     * @return bool Success status
+     */
+    public function deleteFicheFrais($ficheId) {
+        $sql = "DELETE FROM fiche_frais WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $ficheId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /**
      * Delete one hors forfait expense line
      *
      * @param int $ligneId Line ID

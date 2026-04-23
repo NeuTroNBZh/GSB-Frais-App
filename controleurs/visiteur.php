@@ -69,6 +69,7 @@ switch ($action) {
         $typesForfait = $fraisModel->getFraisForfaitTypes();
         $csrfToken = obtenirJetonCsrf();
         $isEditing = isset($_GET['fiche_id']);
+        $isEditing = isset($_GET['fiche_id']);
         
         require_once 'vues/header.inc.php';
         require_once 'vues/menu.inc.php';
@@ -78,6 +79,7 @@ switch ($action) {
     
     case 'enregistrerFrais':
         // Handle expense form submission
+        $redirectAction = 'saisirFrais';
         $redirectAction = 'saisirFrais';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
@@ -123,6 +125,7 @@ switch ($action) {
             $fraisModel->recalculerMontantValide($ficheId);
             
             $message = 'Frais enregistrés avec succès';
+            $redirectAction = (isset($_POST['is_editing']) && $_POST['is_editing'] === '1') ? 'mesFrais' : 'saisirFrais';
             $redirectAction = (isset($_POST['is_editing']) && $_POST['is_editing'] === '1') ? 'mesFrais' : 'saisirFrais';
         }
         
