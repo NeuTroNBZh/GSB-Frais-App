@@ -68,6 +68,17 @@ CREATE TABLE IF NOT EXISTS ligne_frais_hors_forfait (
     INDEX idx_date (date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Vehicle fleet table
+CREATE TABLE IF NOT EXISTS vehicule (
+    immatriculation VARCHAR(20) PRIMARY KEY,
+    id_visiteur INT NOT NULL,
+    date_attribution DATE NOT NULL,
+    FOREIGN KEY (id_visiteur) REFERENCES utilisateurs(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_vehicule_visiteur (id_visiteur),
+    INDEX idx_vehicule_visiteur (id_visiteur),
+    INDEX idx_vehicule_date (date_attribution)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Insert default forfait types
 INSERT INTO frais_forfait (code, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),
@@ -79,5 +90,17 @@ INSERT INTO frais_forfait (code, libelle, montant) VALUES
 -- Default password for all users: 'gsb2024'
 INSERT INTO utilisateurs (login, mot_de_passe, nom, prenom, role) VALUES
 ('visiteur1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Dupont', 'Jean', 'visiteur'),
+('visiteur2', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Villechalanne', 'Robert', 'visiteur'),
+('visiteur3', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Leroy', 'Camille', 'visiteur'),
+('visiteur4', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Moreau', 'Lucas', 'visiteur'),
+('visiteur5', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Petit', 'Emma', 'visiteur'),
 ('comptable1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Martin', 'Sophie', 'comptable'),
 ('admin1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Bernard', 'Pierre', 'admin');
+
+-- Insert sample vehicles (manual examples for phase 2, step 1)
+INSERT INTO vehicule (immatriculation, id_visiteur, date_attribution) VALUES
+('CG-543-JJ', (SELECT id FROM utilisateurs WHERE login = 'visiteur1'), CURDATE()),
+('AA-101-AA', (SELECT id FROM utilisateurs WHERE login = 'visiteur2'), CURDATE()),
+('BB-202-BB', (SELECT id FROM utilisateurs WHERE login = 'visiteur3'), CURDATE()),
+('CC-303-CC', (SELECT id FROM utilisateurs WHERE login = 'visiteur4'), CURDATE()),
+('DD-404-DD', (SELECT id FROM utilisateurs WHERE login = 'visiteur5'), CURDATE());

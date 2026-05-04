@@ -107,6 +107,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
             $success[] = "Table <code>ligne_frais_hors_forfait</code> créée.";
 
+            $pdo->exec("CREATE TABLE IF NOT EXISTS vehicule (
+                immatriculation VARCHAR(20) PRIMARY KEY,
+                id_visiteur     INT NOT NULL,
+                date_attribution DATE NOT NULL,
+                FOREIGN KEY (id_visiteur) REFERENCES utilisateurs(id) ON DELETE CASCADE,
+                UNIQUE KEY unique_vehicule_visiteur (id_visiteur),
+                INDEX idx_vehicule_visiteur (id_visiteur),
+                INDEX idx_vehicule_date (date_attribution)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+            $success[] = "Table <code>vehicule</code> créée.";
+
             // ── Forfaits (INSERT IGNORE = idempotent) ──────────────────────
             $pdo->exec("INSERT IGNORE INTO frais_forfait (code, libelle, montant) VALUES
                 ('ETP', 'Forfait Etape',       110.00),
@@ -126,6 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $comptes = [
                 ['visiteur1',  'Dupont',  'Jean',   'visiteur'],
+                ['visiteur2',  'Villechalanne',  'Robert', 'visiteur'],
+                ['visiteur3',  'Leroy',   'Camille', 'visiteur'],
+                ['visiteur4',  'Moreau',  'Lucas', 'visiteur'],
+                ['visiteur5',  'Petit',   'Emma', 'visiteur'],
                 ['comptable1', 'Martin',  'Sophie', 'comptable'],
                 ['admin1',     'Bernard', 'Pierre', 'admin'],
             ];
@@ -141,6 +156,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
             }
             $success[] = "Comptes de test créés/mis à jour avec le mot de passe fourni.";
+
+            $vehicules = [
+                ['CG-543-JJ', 'visiteur1'],
+                ['AA-101-AA', 'visiteur2'],
+                ['BB-202-BB', 'visiteur3'],
+                ['CC-303-CC', 'visiteur4'],
+                ['DD-404-DD', 'visiteur5'],
+            ];
+
+            $getVisiteurId = $pdo->prepare(
+                "SELECT id FROM utilisateurs WHERE login = :login AND role = 'visiteur' LIMIT 1"
+            );
+
+            $insertVehicule = $pdo->prepare(
+                "INSERT INTO vehicule (immatriculation, id_visiteur, date_attribution)
+                 VALUES (:immatriculation, :id_visiteur, CURDATE())
+                 ON DUPLICATE KEY UPDATE
+                    id_visiteur = VALUES(id_visiteur),
+                    date_attribution = CURDATE()"
+            );
+
+            foreach ($vehicules as [$immatriculation, $loginVisiteur]) {
+                $getVisiteurId->execute([':login' => $loginVisiteur]);
+                $idVisiteur = (int) $getVisiteurId->fetchColumn();
+                if ($idVisiteur <= 0) {
+                    continue;
+                }
+
+                $insertVehicule->execute([
+                    ':immatriculation' => $immatriculation,
+                    ':id_visiteur' => $idVisiteur,
+                ]);
+            }
+            $success[] = "5 véhicules de test insérés/mis à jour dans <code>vehicule</code> (1 visiteur = 1 véhicule).";
 
             // ── Mettre à jour config.php ───────────────────────────────────
             $configPath = __DIR__ . '/include/config.php';

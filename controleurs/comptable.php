@@ -17,6 +17,84 @@ $messageType = 'success';
 
 // Handle different actions
 switch ($action) {
+    case 'parcAutomobileListe':
+        // Display vehicle fleet list for accountant
+        $vehiculesParc = $fraisModel->getParcAutomobileListe();
+        $visiteursSansVehicule = $fraisModel->getVisiteursSansVehicule();
+
+        require_once 'vues/header.inc.php';
+        require_once 'vues/menu.inc.php';
+        require_once 'vues/comptable/parcAutomobileListe.inc.php';
+        require_once 'vues/footer.inc.php';
+        break;
+
+    case 'ajouterVehicule':
+        // Handle POST: add a new vehicle to the fleet
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?action=parcAutomobileListe');
+            exit();
+        }
+
+        if (!verifierJetonCsrf($_POST['csrf_token'] ?? '')) {
+            header('Location: index.php?action=parcAutomobileListe&erreur=csrf');
+            exit();
+        }
+
+        $immatriculation = strtoupper(trim(sanitize($_POST['immatriculation'] ?? '')));
+        $visiteurId = intval($_POST['visiteur_id'] ?? 0);
+        $dateAttribution = sanitize($_POST['date_attribution'] ?? '');
+
+        if ($immatriculation === '' || $visiteurId <= 0 || $dateAttribution === '') {
+            header('Location: index.php?action=parcAutomobileListe&erreur=champs_manquants');
+            exit();
+        }
+
+        // Validate date format
+        $dateObj = DateTime::createFromFormat('Y-m-d', $dateAttribution);
+        if (!$dateObj || $dateObj->format('Y-m-d') !== $dateAttribution) {
+            header('Location: index.php?action=parcAutomobileListe&erreur=date_invalide');
+            exit();
+        }
+
+        $resultat = $fraisModel->ajouterVehicule($immatriculation, $visiteurId, $dateAttribution);
+
+        if ($resultat) {
+            header('Location: index.php?action=parcAutomobileListe&succes=vehicule_ajoute');
+        } else {
+            header('Location: index.php?action=parcAutomobileListe&erreur=ajout_impossible');
+        }
+        exit();
+        break;
+
+    case 'supprimerVehicule':
+        // Handle POST: delete a vehicle from the fleet
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?action=parcAutomobileListe');
+            exit();
+        }
+
+        if (!verifierJetonCsrf($_POST['csrf_token'] ?? '')) {
+            header('Location: index.php?action=parcAutomobileListe&erreur=csrf');
+            exit();
+        }
+
+        $immatriculation = strtoupper(trim(sanitize($_POST['immatriculation'] ?? '')));
+
+        if ($immatriculation === '') {
+            header('Location: index.php?action=parcAutomobileListe&erreur=champs_manquants');
+            exit();
+        }
+
+        $resultat = $fraisModel->supprimerVehicule($immatriculation);
+
+        if ($resultat) {
+            header('Location: index.php?action=parcAutomobileListe&succes=vehicule_supprime');
+        } else {
+            header('Location: index.php?action=parcAutomobileListe&erreur=suppression_impossible');
+        }
+        exit();
+        break;
+
     case 'validerFrais':
         // Display list of visitors
         $visiteurs = $userModel->getAllVisitors();

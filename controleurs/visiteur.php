@@ -37,6 +37,12 @@ switch ($action) {
         // Display expense entry form
         $message = isset($_GET['message']) ? sanitize($_GET['message']) : '';
         $erreur = isset($_GET['erreur']) ? sanitize($_GET['erreur']) : '';
+        $moisSelectionne = isset($_GET['mois']) ? sanitize($_GET['mois']) : $moisCourant;
+
+        if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $moisSelectionne)) {
+            $moisSelectionne = $moisCourant;
+            $erreur = 'Mois invalide, le mois courant a ete charge';
+        }
         
         if (isset($_GET['fiche_id'])) {
             // Editing an existing fiche
@@ -52,13 +58,14 @@ switch ($action) {
                 header('Location: index.php?action=mesFrais&erreur=' . urlencode($erreur));
                 exit();
             }
+
+            $moisSelectionne = $fiche['mois'];
         } else {
-            // Get or create current month expense sheet
-            $mois = $moisCourant;
-            $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $mois);
+            // Get or create selected month expense sheet
+            $ficheFrais = $fraisModel->getFicheFraisByVisiteurAndMois($user['id'], $moisSelectionne);
             
             if (!$ficheFrais) {
-                $ficheId = $fraisModel->createFicheFrais($user['id'], $mois);
+                $ficheId = $fraisModel->createFicheFrais($user['id'], $moisSelectionne);
             } else {
                 $ficheId = $ficheFrais['id'];
             }
@@ -66,9 +73,14 @@ switch ($action) {
         
         $fraisForfait = $fraisModel->getFraisForfait($ficheId);
         $fraisHorsForfait = $fraisModel->getFraisHorsForfait($ficheId);
+        $vehiculeAttribue = $fraisModel->getVehiculeByVisiteurId((int) $user['id']);
         $typesForfait = $fraisModel->getFraisForfaitTypes();
+        if ($vehiculeAttribue) {
+            $typesForfait = array_values(array_filter($typesForfait, function ($type) {
+                return isset($type['code']) && $type['code'] !== 'KM';
+            }));
+        }
         $csrfToken = obtenirJetonCsrf();
-        $isEditing = isset($_GET['fiche_id']);
         $isEditing = isset($_GET['fiche_id']);
         
         require_once 'vues/header.inc.php';
@@ -80,7 +92,7 @@ switch ($action) {
     case 'enregistrerFrais':
         // Handle expense form submission
         $redirectAction = 'saisirFrais';
-        $redirectAction = 'saisirFrais';
+        $redirectParams = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
                 $message = 'Jeton de securite invalide';
@@ -103,8 +115,14 @@ switch ($action) {
                 exit();
             }
             
-            // Update forfait expenses
+            // Update forfait expenses (KM is excluded for visitors with an assigned vehicle)
+            $vehiculeAttribue = $fraisModel->getVehiculeByVisiteurId((int) $user['id']);
             $typesForfait = $fraisModel->getFraisForfaitTypes();
+            if ($vehiculeAttribue) {
+                $typesForfait = array_values(array_filter($typesForfait, function ($type) {
+                    return isset($type['code']) && $type['code'] !== 'KM';
+                }));
+            }
             foreach ($typesForfait as $type) {
                 $fieldName = 'txtForfait' . $type['id'];
                 if (isset($_POST[$fieldName])) {
@@ -126,15 +144,25 @@ switch ($action) {
             
             $message = 'Frais enregistrés avec succès';
             $redirectAction = (isset($_POST['is_editing']) && $_POST['is_editing'] === '1') ? 'mesFrais' : 'saisirFrais';
-            $redirectAction = (isset($_POST['is_editing']) && $_POST['is_editing'] === '1') ? 'mesFrais' : 'saisirFrais';
+
+                        $selectedMonth = isset($_POST['selected_month']) ? sanitize($_POST['selected_month']) : '';
+                        if ($redirectAction === 'saisirFrais' && preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $selectedMonth)) {
+                            $redirectParams['mois'] = $selectedMonth;
+                        }
         }
         
-        // Redirect back to expense entry
-        header('Location: index.php?action=' . $redirectAction . '&message=' . urlencode($message));
+                    // Redirect back to expense entry
+                    $query = ['action' => $redirectAction, 'message' => $message];
+                    if (!empty($redirectParams['mois'])) {
+                        $query['mois'] = $redirectParams['mois'];
+                    }
+
+                    header('Location: index.php?' . http_build_query($query));
         exit();
         break;
 
     case 'supprimerHorsForfait':
+        $selectedMonth = isset($_POST['selected_month']) ? sanitize($_POST['selected_month']) : '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
                 $erreur = 'Jeton de securite invalide';
@@ -160,7 +188,42 @@ switch ($action) {
 
         $queryKey = $erreur !== '' ? 'erreur' : 'message';
         $queryValue = $erreur !== '' ? $erreur : $message;
-        header('Location: index.php?action=saisirFrais&' . $queryKey . '=' . urlencode($queryValue));
+        $query = ['action' => 'saisirFrais', $queryKey => $queryValue];
+        if (preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $selectedMonth)) {
+            $query['mois'] = $selectedMonth;
+        }
+
+        header('Location: index.php?' . http_build_query($query));
+        exit();
+        break;
+
+    case 'supprimerFiche':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verifierJetonCsrf(isset($_POST['csrf_token']) ? $_POST['csrf_token'] : null)) {
+                $erreur = 'Jeton de securite invalide';
+                header('Location: index.php?action=mesFrais&erreur=' . urlencode($erreur));
+                exit();
+            }
+
+            $ficheId = isset($_POST['fiche_id']) ? intval($_POST['fiche_id']) : 0;
+            $fiche = $fraisModel->getFicheFraisById($ficheId);
+
+            if (!$fiche) {
+                $erreur = 'Fiche de frais introuvable';
+            } elseif ((int) $fiche['visiteur_id'] !== (int) $user['id']) {
+                $erreur = 'Action non autorisee';
+            } elseif ($fiche['statut'] !== Frais::STATUS_EN_COURS) {
+                $erreur = 'Seules les fiches en cours peuvent etre supprimees';
+            } elseif ($fraisModel->deleteFicheFrais($ficheId)) {
+                $message = 'Fiche de frais supprimee avec succes';
+            } else {
+                $erreur = 'Impossible de supprimer la fiche de frais';
+            }
+        }
+
+        $queryKey = $erreur !== '' ? 'erreur' : 'message';
+        $queryValue = $erreur !== '' ? $erreur : $message;
+        header('Location: index.php?action=mesFrais&' . $queryKey . '=' . urlencode($queryValue));
         exit();
         break;
 

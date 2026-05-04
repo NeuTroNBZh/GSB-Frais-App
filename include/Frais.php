@@ -357,6 +357,96 @@ class Frais {
     }
 
     /**
+     * Get the vehicle assigned to a visitor
+     *
+     * @param int $visiteurId Visitor ID
+     * @return array|bool Vehicle data or false
+     */
+    public function getVehiculeByVisiteurId($visiteurId) {
+        $sql = "SELECT immatriculation, date_attribution
+                FROM vehicule
+                WHERE id_visiteur = :visiteur_id
+                LIMIT 1";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':visiteur_id', $visiteurId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    /**
+     * Get vehicle fleet list with assigned visitor names
+     *
+     * @return array List of vehicles with visitor
+     */
+    public function getParcAutomobileListe() {
+        $sql = "SELECT v.immatriculation, v.date_attribution, u.id AS visiteur_id, u.nom, u.prenom
+                FROM vehicule v
+                INNER JOIN utilisateurs u ON u.id = v.id_visiteur
+                WHERE u.role = :role_visiteur
+                ORDER BY v.immatriculation ASC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':role_visiteur', User::ROLE_VISITOR, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Get visitors who have no vehicle assigned
+     *
+     * @return array List of visitors without a vehicle
+     */
+    public function getVisiteursSansVehicule() {
+        $sql = "SELECT u.id, u.nom, u.prenom
+                FROM utilisateurs u
+                WHERE u.role = :role_visiteur
+                  AND u.id NOT IN (SELECT id_visiteur FROM vehicule)
+                ORDER BY u.nom ASC, u.prenom ASC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':role_visiteur', User::ROLE_VISITOR, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Add a new vehicle to the fleet
+     *
+     * @param string $immatriculation Vehicle registration plate
+     * @param int $visiteurId Visitor ID
+     * @param string $dateAttribution Date of attribution (YYYY-MM-DD)
+     * @return bool Success status
+     */
+    public function ajouterVehicule($immatriculation, $visiteurId, $dateAttribution) {
+        $sql = "INSERT INTO vehicule (immatriculation, id_visiteur, date_attribution)
+                VALUES (:immatriculation, :id_visiteur, :date_attribution)";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':immatriculation', $immatriculation, PDO::PARAM_STR);
+        $stmt->bindValue(':id_visiteur', $visiteurId, PDO::PARAM_INT);
+        $stmt->bindValue(':date_attribution', $dateAttribution, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Delete a vehicle from the fleet by its registration plate
+     *
+     * @param string $immatriculation Vehicle registration plate
+     * @return bool Success status
+     */
+    public function supprimerVehicule($immatriculation) {
+        $sql = "DELETE FROM vehicule WHERE immatriculation = :immatriculation";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':immatriculation', $immatriculation, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+    /**
      * Recalculate and persist the validated amount for a sheet
      *
      * @param int $ficheId Expense sheet ID

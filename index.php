@@ -58,6 +58,9 @@ switch ($action) {
     case 'listeFraisVisiteur':
     case 'detailFrais':
     case 'validerFiche':
+    case 'parcAutomobileListe':
+    case 'ajouterVehicule':
+    case 'supprimerVehicule':
         require_once 'controleurs/comptable.php';
         break;
     

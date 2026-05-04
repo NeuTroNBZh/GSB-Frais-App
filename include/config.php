@@ -7,24 +7,7 @@
  * @version 1.0
  */
 
-// Database configuration prod
-
-define('DB_HOST', 'REDACTED_HOST'); 
-define('DB_NAME', 'gsb_frais');
-define('DB_USER', 'REDACTED_USER');
-define('DB_PASS', 'REDACTED');
-define('DB_CHARSET', 'utf8mb4');
-
-
-// Test configuration for podman
-/*
-define('DB_HOST', 'db'); 
-define('DB_NAME', 'gsb_frais');
-define('DB_USER', 'gsb_user');
-define('DB_PASS', 'gsb_pass');
-define('DB_CHARSET', 'utf8mb4');
-*/
-
+// Database configuration
 /*
 define('DB_HOST', 'localhost'); 
 define('DB_NAME', 'gsb_frais');
@@ -32,6 +15,12 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 */
+
+define('DB_HOST', 'localhost'); 
+define('DB_NAME', 'gsb_frais');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_CHARSET', 'utf8mb4');
 // Application configuration
 define('APP_NAME', 'GSB Frais App');
 define('BASE_URL', '/');

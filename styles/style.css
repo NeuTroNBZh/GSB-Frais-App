@@ -427,6 +427,174 @@ footer {
     color: var(--gsb-white);
 }
 
+/* Parc automobile - phase 2 etape 3 */
+.parc-auto-card {
+    background-color: #cb6d2f;
+    border-radius: 0;
+    padding: 18px 18px 14px;
+    box-shadow: none;
+}
+
+.parc-auto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.parc-auto-header h2 {
+    color: #111;
+    font-size: 48px;
+    line-height: 1.1;
+    margin: 0;
+    font-weight: 800;
+}
+
+.parc-auto-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.parc-auto-table thead {
+    background-color: transparent;
+    color: #111;
+}
+
+.parc-auto-table th {
+    border-bottom: none;
+    font-size: 20px;
+    font-weight: 800;
+    padding: 8px 10px;
+}
+
+.parc-auto-table td {
+    background-color: #fff;
+    border: 1px solid #d8d8d8;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px;
+    height: 46px;
+}
+
+.parc-auto-table tbody tr:hover {
+    background-color: transparent;
+}
+
+.parc-col-action {
+    width: 76px;
+    text-align: center;
+    border: none !important;
+    background: transparent !important;
+}
+
+.parc-action {
+    width: 64px;
+    height: 44px;
+    border: 1px solid #7a7a7a;
+    border-radius: 6px;
+    background-color: #f3f3f3;
+    color: #666;
+    font-size: 30px;
+    line-height: 1;
+    cursor: default;
+}
+
+.parc-plus {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.parc-minus {
+    font-size: 34px;
+    cursor: pointer;
+}
+
+/* Modal parc automobile */
+.parc-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.parc-modal {
+    background: #fff;
+    border-radius: 8px;
+    width: 420px;
+    max-width: 95%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    overflow: hidden;
+}
+
+.parc-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #003366;
+    color: #fff;
+    padding: 14px 18px;
+}
+
+.parc-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.parc-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 26px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+.parc-modal-form {
+    padding: 20px 24px;
+}
+
+.parc-form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.parc-form-group label {
+    font-weight: 700;
+    font-size: 14px;
+    color: #333;
+}
+
+.parc-form-input {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.parc-form-input:focus {
+    outline: none;
+    border-color: #0055aa;
+    box-shadow: 0 0 0 2px rgba(0,85,170,0.15);
+}
+
+.parc-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
 /* Responsive adjustments for 1024x768 */
 @media screen and (max-width: 1024px) {
     .sidebar {
@@ -435,6 +603,15 @@ footer {
     
     .main-content {
         padding: 20px;
+    }
+
+    .parc-auto-header h2 {
+        font-size: 34px;
+    }
+
+    .parc-auto-table th,
+    .parc-auto-table td {
+        font-size: 16px;
     }
 }
 

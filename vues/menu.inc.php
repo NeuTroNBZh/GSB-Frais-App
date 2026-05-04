@@ -11,6 +11,7 @@
                 <?php if (aLeRole(User::ROLE_ACCOUNTANT)): ?>
                     <li><a href="index.php?action=accueil" class="<?php echo $action === 'accueil' ? 'active' : ''; ?>">Accueil</a></li>
                     <li><a href="index.php?action=validerFrais" class="<?php echo $action === 'validerFrais' ? 'active' : ''; ?>">Valider les frais</a></li>
+                    <li><a href="index.php?action=parcAutomobileListe" class="<?php echo $action === 'parcAutomobileListe' ? 'active' : ''; ?>">Parc automobile</a></li>
                 <?php endif; ?>
                 
                 <?php if (aLeRole(User::ROLE_ADMIN)): ?>

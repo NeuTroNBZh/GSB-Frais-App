@@ -9,6 +9,18 @@
             </tbody>
         </table>
     </div>
+
+    <?php if ($message !== ''): ?>
+        <div class="alert alert-success">
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($erreur !== ''): ?>
+        <div class="alert alert-error">
+            <?php echo htmlspecialchars($erreur); ?>
+        </div>
+    <?php endif; ?>
     
     <?php if (empty($ficheFrais)): ?>
         <p>Vous n'avez pas encore de fiche de frais.</p>
@@ -66,10 +78,14 @@
                             <?php endif; ?>
                         </td>
                         <td>
-                            <form action="index.php?action=supprimerHorsForfait" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer ce frais hors forfait ?">
+                            <form action="index.php?action=supprimerFiche" method="POST" class="inline-form js-confirm-action" data-confirm-message="Supprimer cette fiche de frais ? Cette action est irreversible.">
                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
-                                <input type="hidden" name="ligne_id" value="<?php echo (int) $fiche['id']; ?>">
-                                <button type="submit" class="btn btn-warning">Supprimer</button>
+                                <input type="hidden" name="fiche_id" value="<?php echo (int) $fiche['id']; ?>">
+                                <?php if ($fiche['statut'] === Frais::STATUS_EN_COURS): ?>
+                                    <button type="submit" class="btn btn-warning">Supprimer</button>
+                                <?php else: ?>
+                                    <span class="text-muted">Non supprimable</span>
+                                <?php endif; ?>
                             </form>
                         </td>                        
                     </tr>
