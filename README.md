@@ -5,6 +5,8 @@
 [![PHP](https://img.shields.io/badge/PHP-8-777BB4.svg)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-8-4479A1.svg)](https://www.mysql.com/)
 
+[Démo en ligne](https://demo-gsb-frais.neutronbzh.fr) — comptes de test : `visiteur1` / `comptable1` / `admin1`, mot de passe `Demo1234` (réinitialisé chaque nuit)
+
 ## À propos
 
 Ce projet a été réalisé dans le cadre d'un cursus BTS SIO. Il reprend un cas d'étude classique de la formation (GSB) : les visiteurs médicaux saisissent leurs frais de déplacement mensuels, les comptables les valident, et l'administration gère les utilisateurs et consulte des rapports.
