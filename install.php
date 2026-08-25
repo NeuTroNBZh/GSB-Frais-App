@@ -297,21 +297,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php else: ?>
         <form method="POST" action="">
             <label>Hôte MySQL</label>
-            <input type="text" name="db_host" value="<?php echo htmlspecialchars($_POST['db_host'] ?? 'REDACTED_HOST'); ?>" required>
+            <input type="text" name="db_host" value="<?php echo htmlspecialchars($_POST['db_host'] ?? 'localhost'); ?>" required>
 
             <label>Nom de la base de données</label>
             <input type="text" name="db_name" value="<?php echo htmlspecialchars($_POST['db_name'] ?? 'gsb_frais'); ?>" required>
 
             <label>Utilisateur MySQL</label>
-            <input type="text" name="db_user" value="<?php echo htmlspecialchars($_POST['db_user'] ?? 'REDACTED_USER'); ?>" required>
+            <input type="text" name="db_user" value="<?php echo htmlspecialchars($_POST['db_user'] ?? 'root'); ?>" required>
 
             <label>Mot de passe MySQL</label>
-            <input type="password" name="db_pass" value="<?php echo htmlspecialchars($_POST['db_pass'] ?? 'REDACTED'); ?>">
+            <input type="password" name="db_pass" value="">
 
             <hr>
 
             <label>Mot de passe des comptes de test (visiteur1 / comptable1 / admin1)</label>
-            <input type="text" name="mdp_test" value="<?php echo htmlspecialchars($_POST['mdp_test'] ?? 'gsb2026'); ?>" required>
+            <input type="text" name="mdp_test" value="<?php echo htmlspecialchars($_POST['mdp_test'] ?? ''); ?>" required>
 
             <button type="submit">Installer</button>
         </form>
